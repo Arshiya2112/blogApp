@@ -1,6 +1,7 @@
 "use client";
 import { assets, blog_data } from "@/assets/assets";
 import Footer from "@/components/Footer";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -10,21 +11,41 @@ const page = ({ params }) => {
 
   const fetchBlogData = async () => {
     //to be changed and implemented
-    const resolvedParams = await params;
-    const blogId = Number(resolvedParams.id);
+    // const resolvedParams = await params;
+    // const blogId = Number(resolvedParams.id);
 
-    for (let i = 0; i < blog_data.length; i++) {
-      if (blogId === blog_data[i].id) {
-        setData(blog_data[i]);
-        console.log(blog_data[i]);
-        break;
-      }
+    // for (let i = 0; i < blog_data.length; i++) {
+    //   if (blogId === blog_data[i].id) {
+    //     setData(blog_data[i]);
+    //     console.log(blog_data[i]);
+    //     break;
+    //   }
+    // }
+
+    // const response = await axios.get('/api/blog',{
+    //   params: {
+    //     id:params.id
+    //   }
+    // })
+
+    try {
+      // const resolvedParams = await React.use(params);
+      const blogId = params.id;
+
+      const response = await axios.get("/api/blog", {
+        params: {
+          id: blogId,
+        },
+      });
+      setData(response.data.blog);
+    } catch (error) {
+      console.error("Error fetching blog data : ", error);
     }
   };
 
   useEffect(() => {
     fetchBlogData();
-  }, []);
+  }, [params.id]);
 
   return data ? (
     <>
@@ -44,7 +65,7 @@ const page = ({ params }) => {
           </h1>
           <Image
             className="mx-auto mt-6 border border-white rounded-full"
-            src={data.author_img}
+            src={data.authorImg}
             width={60}
             height={60}
             alt=""
@@ -63,18 +84,17 @@ const page = ({ params }) => {
           className="border-4 border-white"
         />
 
-       <div className="blog-content" dangerouslySetInnerHTML={{__html:data.description}}>
-
-       </div>
+        <div
+          className="blog-content"
+          dangerouslySetInnerHTML={{ __html: data.description }}
+        ></div>
 
         <div className="my-24">
-          <p className="text-black font-semibold my-4">
-            Share
-          </p>
+          <p className="text-black font-semibold my-4">Share</p>
           <div className="flex">
-            <Image src={assets.facebook_icon} width={50} alt=""/>
-            <Image src={assets.twitter_icon} width={50} alt=""/>
-            <Image src={assets.googleplus_icon} width={50} alt=""/>
+            <Image src={assets.facebook_icon} width={50} alt="" />
+            <Image src={assets.twitter_icon} width={50} alt="" />
+            <Image src={assets.googleplus_icon} width={50} alt="" />
           </div>
         </div>
       </div>

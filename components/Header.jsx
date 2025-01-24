@@ -1,13 +1,23 @@
 import { assets } from "@/assets/assets";
 import Image from "next/image";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 const Header = () => {
   const [email, setEmail] = useState("");
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    //logic yet to be implemented
+    const formData = new FormData();
+    formData.append("email", email);
+    const response = await axios.post('/api/email', formData);
+    if(response.data.success) {
+      toast.success(response.data.msg);
+      setEmail("");
+    }
+    else {
+      toast.error("Error");
+    }
   };
 
   return (
@@ -26,7 +36,7 @@ const Header = () => {
           all things tech!
         </p>
         <form
-          action=""
+          onSubmit={onSubmitHandler}
           className="flex justify-between max-w-[500px] scale-75 sm:scale-100 mx-auto mt-10 border border-black shadow-[-7px_7px_0px_#000000]"
         >
           <input

@@ -1,6 +1,6 @@
 import React from "react";
 
-const SubTableItem = ({ email, date }) => {
+const SubTableItem = ({ email, mongoId, date }) => {
   const emailDate = new Date(date);
 
   return (
@@ -12,7 +12,7 @@ const SubTableItem = ({ email, date }) => {
         {email ? email : "No Email"}
       </th>
       <td className="px-6 py-4 hidden sm:block">{emailDate.toDateString()}</td>
-      <td className="px-6 py-4 cursor-pointer">Remove</td>
+      <td className="px-6 py-4 cursor-pointer" onClick={() => deleteEmail(mongoId)}>Remove</td>
     </tr>
   );
 };

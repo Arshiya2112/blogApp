@@ -1,38 +1,71 @@
-'use client'
-import BlogTableItem from '@/components/AdminComponents/BlogTableItem'
-import React from 'react'
+"use client";
+import BlogTableItem from "@/components/AdminComponents/BlogTableItem";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const page = () => {
+  const [blogs, setBlogs] = useState([]);
 
-  //some logic to be implemented
+  const fetchBlogs = async () => {
+    const response = await axios.get("http://localhost:3000/api/blog");
+    setBlogs(response.data.blogs);
+  };
+
+  const deleteBlog = async (mongoId) => {
+    const response = await axios.delete('http://localhost:3000/api/blog', {
+      params: {
+        id: mongoId
+      }
+    })
+    toast.success(response.data.msg);
+    fetchBlogs();
+  }
+
+  useEffect(() => {
+    fetchBlogs();
+  }, []);
+
   return (
-    <div className='flex-1 pt-5 px-5 sm:pl-16 sm:pt-12'>
-      <h1 className='text-lg font-semibold'>All Blogs</h1>
-      <div className='relative h-[80vh] max-w-[850px] overflow-x-auto mt-4 border border-gray-400 scrollbar-hide'>
-        <table className='w-full text-sm text-gray-500'>
-          <thead className='text-sm text-gray-700 bg-gray-100 text-left uppercase'>
+    <div className="flex-1 pt-5 px-5 sm:pl-16 sm:pt-12">
+      <h1 className="text-lg font-semibold">All Blogs</h1>
+      <div className="relative h-[80vh] max-w-[850px] overflow-x-auto mt-4 border border-gray-400 scrollbar-hide">
+        <table className="w-full text-sm text-gray-500">
+          <thead className="text-sm text-gray-700 bg-gray-100 text-left uppercase">
             <tr>
-              <th scope='col' className='hidden sm:block px-6 py-3'>
+              <th scope="col" className="hidden sm:block px-6 py-3">
                 Author
               </th>
-              <th scope='col' className='px-6 py-3'>
+              <th scope="col" className="px-6 py-3">
                 Title
               </th>
-              <th scope='col' className='px-6 py-3'>
+              <th scope="col" className="px-6 py-3">
                 Date
               </th>
-              <th scope='col' className='px-6 py-3'>
+              <th scope="col" className="px-6 py-3">
                 Action
               </th>
             </tr>
           </thead>
-          <tbody> 
-            <BlogTableItem/> 
+          <tbody>
+            {blogs.map((item, index) => {
+              return (
+                <BlogTableItem
+                  key={index}
+                  mongoId={item._id}
+                  title={item.title}
+                  author={item.author}
+                  authorImg={item.authorImg}
+                  date={item.date}
+                  deleteBlog={deleteBlog}
+                />
+              );
+            })}
           </tbody>
         </table>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
