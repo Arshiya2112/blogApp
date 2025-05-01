@@ -9,12 +9,12 @@ const page = () => {
   const [emails, setEmails] = useState([]);
 
   const fetchEmails = async () => {
-    const response = await axios.get('/api/email');
+    const response = await axios.get('http://localhost:3000/api/email');
     setEmails(response.data.emails);
   }
 
   const deleteEmail = async (mongoId) => {
-    const response = await axios.delete('/api/email', {
+    const response = await axios.delete('http://localhost:3000/api/email', {
       params:{
         id:mongoId
       }

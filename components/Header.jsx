@@ -1,4 +1,5 @@
 import { assets } from "@/assets/assets";
+import axios from "axios";
 import Image from "next/image";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
@@ -10,12 +11,14 @@ const Header = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("email", email);
-    const response = await axios.post('/api/email', formData);
-    if(response.data.success) {
+    const response = await axios.post(
+      "http://localhost:3000/api/email",
+      formData
+    );
+    if (response.data.success) {
       toast.success(response.data.msg);
       setEmail("");
-    }
-    else {
+    } else {
       toast.error("Error");
     }
   };

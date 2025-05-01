@@ -2,7 +2,14 @@ import { assets } from "@/assets/assets";
 import Image from "next/image";
 import React from "react";
 
-const BlogTableItem = ({ authorImg, title, author, date, deleteBlog, mongoId }) => {
+const BlogTableItem = ({
+  authorImg,
+  title,
+  author,
+  date,
+  deleteBlog,
+  mongoId,
+}) => {
   const BlogDate = new Date(date);
 
   //deletion logic to be implemented
@@ -16,13 +23,18 @@ const BlogTableItem = ({ authorImg, title, author, date, deleteBlog, mongoId }) 
         <Image
           width={40}
           height={40}
-          src={authorImg ? authorImg : assets.profile_icon}
+          src={authorImg ? authorImg : assets.adminimg}
         />
         <p>{author ? author : "No Author"}</p>
       </th>
       <td className="px-6 py-4">{title ? title : "No Title"}</td>
       <td className="px-6 py-4">{BlogDate.toDateString()}</td>
-      <td onClick={() => deleteBlog(mongoId)} className="px-6 py-4 cursor-pointer">Remove</td>
+      <td
+        onClick={() => deleteBlog(mongoId)}
+        className="px-6 py-4 cursor-pointer"
+      >
+        Remove
+      </td>
     </tr>
   );
 };

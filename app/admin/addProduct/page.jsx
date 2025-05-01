@@ -12,7 +12,7 @@ const page = () => {
     title:"",
     description:"",
     category:"Startup",
-    author:"Alex Bennett",
+    author:"Abhishek Pandey",
     authorImg:"/author_img.png"
   })
 
@@ -42,7 +42,7 @@ const page = () => {
         title:"",
         description:"",
         category:"Startup",
-        author:"Alex Bennett",
+        author:"Abhishek Pandey",
         authorImg:"/author_img.png"
       })
     }
